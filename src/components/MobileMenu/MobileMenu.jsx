@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import * as Dialog from '@radix-ui/react-dialog';
 
 import { QUERIES, WEIGHTS } from '../../constants';
@@ -42,11 +42,42 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
   );
 };
 
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0.8;
+  }
+`;
+
 const Overlay = styled(Dialog.Overlay)`
   position: fixed;
   inset: 0;
   background: var(--color-backdrop);
+  animation: ${fadeIn} 150ms ease-out both;
 `;
+
+const fontFadeIn = keyframes`
+  0% {
+    color: transparent;
+  }
+    
+  100% {
+    color: var(--color);
+  }
+`
+
+const slideIn = keyframes`
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+`
 
 const Content = styled(Dialog.Content)`
   position: fixed;
@@ -59,6 +90,10 @@ const Content = styled(Dialog.Content)`
   padding: 24px 32px;
   display: flex;
   flex-direction: column;
+  animation: ${fontFadeIn} 800 ease-out both;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: ${slideIn} 300ms ease-out, ${fontFadeIn} 800 ease-out both;
+  }
 `;
 
 const CloseButton = styled(UnstyledButton)`
@@ -75,15 +110,17 @@ const Nav = styled.nav`
 `;
 
 const NavLink = styled.a`
-  color: var(--color-gray-900);
+  --color: var(--color-gray-900);
   font-weight: ${WEIGHTS.medium};
   text-decoration: none;
   font-size: 1.125rem;
   text-transform: uppercase;
 
   &:first-of-type {
-    color: var(--color-secondary);
+    --color: var(--color-secondary);
   }
+
+  animation: ${fontFadeIn} 800ms ease-out both;
 `;
 
 const Filler = styled.div`
@@ -98,9 +135,10 @@ const Footer = styled.footer`
 `;
 
 const SubLink = styled.a`
-  color: var(--color-gray-700);
+  --color: var(--color-gray-700);
   font-size: 0.875rem;
   text-decoration: none;
+  animation: ${fontFadeIn} 800ms ease-out both;
 `;
 
 export default MobileMenu;
